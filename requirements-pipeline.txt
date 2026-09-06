@@ -1,0 +1,21 @@
+# Full pipeline dependencies (GitHub Actions / local training)
+scikit-learn==1.4.2
+tensorflow==2.16.1
+pandas==2.1.4
+pyarrow==17.0.0
+numpy==1.26.4
+scipy==1.13.1
+hopsworks==4.7.2
+shap==0.45.1
+flask==3.0.3
+flask-cors==4.0.1
+requests==2.32.3
+python-dotenv==1.0.1
+matplotlib==3.9.0
+seaborn==0.13.2
+plotly==5.22.0
+joblib==1.4.2
+loguru==0.7.2
+pyyaml==6.0.1
+click==8.1.7
+tqdm==4.66.4

@@ -1,0 +1,84 @@
+name: Training Pipeline
+
+on:
+  schedule:
+    # Run daily at 02:00 UTC
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: "3.11"
+  HOPSWORKS_HOST: "eu-west.cloud.hopsworks.ai"
+  CITY: "Karachi"
+  LAT: "24.8607"
+  LON: "67.0011"
+
+jobs:
+  training-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-pipeline.txt
+          pip install pyarrow==17.0.0
+
+      - name: Validate parquet dependencies
+        run: |
+          python -c "import pandas as pd; import pyarrow; print('pandas', pd.__version__); print('pyarrow', pyarrow.__version__)"
+
+      - name: Validate required secrets
+        env:
+          HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
+          HOPSWORKS_PROJECT: ${{ secrets.HOPSWORKS_PROJECT }}
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+        run: |
+          test -n "$HOPSWORKS_API_KEY" || (echo "Missing secret: HOPSWORKS_API_KEY" && exit 1)
+          test -n "$HOPSWORKS_PROJECT" || (echo "Missing secret: HOPSWORKS_PROJECT" && exit 1)
+          test -n "$OPENWEATHER_API_KEY" || (echo "Missing secret: OPENWEATHER_API_KEY" && exit 1)
+          echo "Secrets validation passed"
+
+      - name: Run Training Pipeline
+        env:
+          HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
+          HOPSWORKS_PROJECT: ${{ secrets.HOPSWORKS_PROJECT }}
+          HOPSWORKS_HOST: ${{ env.HOPSWORKS_HOST }}
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+          CITY: ${{ env.CITY }}
+          LAT: ${{ env.LAT }}
+          LON: ${{ env.LON }}
+        run: |
+          python main.py --pipeline training
+
+      - name: Run SHAP Explanations
+        env:
+          HOPSWORKS_API_KEY: ${{ secrets.HOPSWORKS_API_KEY }}
+          HOPSWORKS_PROJECT: ${{ secrets.HOPSWORKS_PROJECT }}
+          HOPSWORKS_HOST: ${{ env.HOPSWORKS_HOST }}
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+          CITY: ${{ env.CITY }}
+          LAT: ${{ env.LAT }}
+          LON: ${{ env.LON }}
+        run: |
+          python main.py --pipeline shap
+
+      - name: Upload model artefacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-artefacts-${{ github.run_id }}
+          path: |
+            models/
+            data/shap_outputs/
+          retention-days: 30

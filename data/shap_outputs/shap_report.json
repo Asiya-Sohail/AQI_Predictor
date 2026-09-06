@@ -1,0 +1,12 @@
+{
+  "model_type": "ridge",
+  "n_samples": 500,
+  "n_features": 13,
+  "top_features": [
+    "rolling_mean_3",
+    "aqi_change_rate",
+    "pm10",
+    "co",
+    "o3"
+  ]
+}

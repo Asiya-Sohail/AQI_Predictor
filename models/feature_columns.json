@@ -1,0 +1,18 @@
+{
+  "feature_columns": [
+    "aqi_change_rate",
+    "co",
+    "day",
+    "hour",
+    "humidity",
+    "month",
+    "no2",
+    "o3",
+    "pm10",
+    "pressure",
+    "rolling_mean_3",
+    "temperature",
+    "wind_speed"
+  ],
+  "target": "pm2_5"
+}

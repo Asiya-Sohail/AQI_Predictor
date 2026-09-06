@@ -1,0 +1,17 @@
+# Streamlit Cloud runtime dependencies (Python 3.13 compatible)
+streamlit>=1.35,<2.0
+
+# Core runtime
+pandas>=2.2,<2.4
+numpy>=2.1,<2.4
+scikit-learn>=1.6,<1.8
+joblib>=1.4,<2.0
+pyarrow>=18,<20
+
+# APIs / config / logging
+requests>=2.32,<3.0
+python-dotenv>=1.0,<2.0
+loguru>=0.7,<1.0
+
+# Visuals used by dashboard
+plotly>=5.22,<6.0

@@ -1,0 +1,14 @@
+rank,feature,mean_abs_shap
+1,rolling_mean_3,7.3293166
+2,aqi_change_rate,2.919174
+3,pm10,2.2870939
+4,co,2.0861604
+5,o3,1.1466923
+6,no2,0.6062793
+7,humidity,0.26645455
+8,month,0.25497806
+9,temperature,0.18902375
+10,pressure,0.11355932
+11,wind_speed,0.092535466
+12,hour,0.027733967
+13,day,0.010079016
