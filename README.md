@@ -70,7 +70,24 @@ LON=<longitude>
 
 If your project is in EU cloud, `HOPSWORKS_HOST` must be `eu-west.cloud.hopsworks.ai`.
 
-### 3. Run Pipelines
+### 3. Download Training Data
+
+Use the included script to pull the last 30 days of real air-quality data from OpenWeatherMap (free tier) and save it as `data/air_quality_historical.csv`:
+
+```bash
+# Download last 30 days of pollution data (max on free plan)
+python download_openweather_csv.py
+
+# Or a shorter window, e.g. 7 days
+python download_openweather_csv.py --days 7
+
+# Then process the CSV into the parquet format used for training
+python augment_data.py
+```
+
+> If `data/air_quality_historical.csv` already exists the script will **merge** new rows and deduplicate by date, so you can safely re-run it monthly to keep data fresh.
+
+### 4. Run Pipelines
 
 ```bash
 # Feature engineering (fetch data → clean → engineer → push to Hopsworks)
@@ -98,7 +115,7 @@ python main.py --pipeline all
 python main.py --pipeline training --local
 ```
 
-### 4. Serve
+### 5. Serve
 
 ```bash
 # Flask REST API (port 5000)
