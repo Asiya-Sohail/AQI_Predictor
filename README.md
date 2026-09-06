@@ -94,7 +94,7 @@ python augment_data.py
 python main.py --pipeline features
 
 # Historical backfill (populate training data for a date range)
-python main.py --pipeline backfill --backfill-start 2024-01-01 --backfill-end 2024-12-31
+python main.py --pipeline backfill --backfill-start 2026-01-01 --backfill-end 2026-06-30
 
 # Exploratory Data Analysis
 python main.py --pipeline eda
