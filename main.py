@@ -13,6 +13,8 @@ Usage:
     python main.py --serve streamlit        # Start Streamlit dashboard
 """
 
+import utils.transport
+import utils.session
 import sys
 from pathlib import Path
 

@@ -9,7 +9,6 @@ venv/
 env/
 
 # IDE
-.vscode/
 .idea/
 
 # OS
@@ -17,7 +16,6 @@ env/
 Thumbs.db
 
 # Secrets
-.env
 
 # Data & model artefacts (track only minimal runtime files)
 data/*.parquet
@@ -46,7 +44,8 @@ dist/
 build/
 *.egg-info/
 
-.env
 .venv/
 __pycache__/
 *.pyc
+config.bat
+node_modules
