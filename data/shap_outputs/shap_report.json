@@ -1,12 +1,12 @@
 {
   "model_type": "ridge",
-  "n_samples": 500,
+  "n_samples": 248,
   "n_features": 13,
   "top_features": [
-    "rolling_mean_3",
-    "aqi_change_rate",
     "pm10",
-    "co",
-    "o3"
+    "rolling_mean_3",
+    "no2",
+    "o3",
+    "co"
   ]
 }
